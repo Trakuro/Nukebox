@@ -1,11 +1,19 @@
 # Nukebox
 
-## How to start
+## To-do List
 
-1. generate project using `nb create` .
-2. create your plugin using `nb plugin create` .
-3. writing your plugins under `src/plugins` folder.
-4. run your bot using `nb run --reload` .
+- dice
+  - [x] .r
+  - [x] .r d20
+  - [x] .r 2d6 + 3
+  - [x] .r d20kh
+
+  - [ ] .ra +5
+  - [ ] .re 6d20
+  
+- gsd
+  - silence
+
 
 ## Documentation
 

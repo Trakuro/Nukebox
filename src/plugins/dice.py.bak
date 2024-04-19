@@ -1,0 +1,56 @@
+from nonebot.plugin import on_command
+from nonebot.adapters import Message
+from nonebot.params import CommandArg
+
+from random import randint
+from enum import Enum
+
+roll = on_command("r", aliases={"roll"}, priority=10, block=True)
+roll_check = on_command("ra")
+roll_explicit = on_command("re")
+
+
+class DiceMode(Enum):
+    regular = 1
+    keep_highest = 2
+    keep_lowest = 3
+
+
+# TODO: Ensure number>=0 side>=1 mode <- {"", "kh", "kl"}
+def roll_dice(number, sides, mode: DiceMode = DiceMode.regular):
+    rolls = [randint(1, sides) for _ in range(number)]
+
+    match mode:
+        case 1:
+            return sum(rolls)
+
+        case 2:
+            return max(rolls)
+
+        case 3:
+            return min(rolls)
+
+
+@roll.handle()
+async def _(args: Message = CommandArg()):
+    dice_expr = args.extract_plain_text().strip()
+
+    if dice_expr == "":
+        result = roll_dice(1, 20)
+        await roll.finish(f"Dice 1d20 = {result}.")
+
+
+@roll_check.handle()
+async def _(args: Message = CommandArg()):
+    modifier = args.extract_plain_text
+
+    if modifier == "":
+        result = roll_dice(1, 20)
+        await roll.finish(f"Skill Check 1d20 = {result}")
+    else:
+        pass
+
+
+@roll_explicit.handle()
+async def _(args: Message = CommandArg()):
+    pass
